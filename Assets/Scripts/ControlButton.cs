@@ -1,18 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ControlButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Button _button;
+    [SerializeField] private Image _image;
+    [SerializeField] private Sprite _playSprite;
+    [SerializeField] private Sprite _pauseSprite;
+
+    private bool _isPlayed;
+
+    private void OnEnable()
+    {
+        _button.onClick.AddListener(OnButtonClick);
+    }
+
+    private void Update()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnButtonClick()
     {
-        
+        _isPlayed = !_isPlayed;
+
+        if (_isPlayed)
+        {
+            _image.sprite = _pauseSprite;
+        }
+        else
+        {
+            _image.sprite = _playSprite;
+        }
     }
 }

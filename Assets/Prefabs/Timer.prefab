@@ -337,7 +337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.6}
-  m_AnchoredPosition: {x: 0, y: 38}
+  m_AnchoredPosition: {x: 48.3, y: 38}
   m_SizeDelta: {x: 800, y: 76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1391531819593593746
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 130
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -449,6 +449,7 @@ GameObject:
   - component: {fileID: 6064985222410036704}
   - component: {fileID: 929135908715787053}
   - component: {fileID: 2776818736605089209}
+  - component: {fileID: 2868258798617527471}
   m_Layer: 5
   m_Name: Control Button
   m_TagString: Untagged
@@ -557,3 +558,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2868258798617527471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7294515054365387908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f636c207e64054b9c9ae86afa2c740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 2776818736605089209}
+  _image: {fileID: 929135908715787053}
+  _playSprite: {fileID: 21300000, guid: 81bdab3b8d21e5f419e5d69fc4dfc4e3, type: 3}
+  _pauseSprite: {fileID: 21300000, guid: 10b2a5f7750ee1d4c81648d436265e3d, type: 3}
