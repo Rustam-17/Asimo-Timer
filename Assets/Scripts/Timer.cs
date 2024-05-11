@@ -12,12 +12,8 @@ public class Timer : MonoBehaviour
     [SerializeField] private Button _startButton;
 
     private DateTime _startTime;
+    private TimeSpan _pausedTime;
     private TimeSpan _elapsedTime;
-    private float _totalSeconds;
-    private int _seconds;
-    private int _minutes;
-    private int _hours;
-    private int _days;
     private bool _isWork;
 
     private void OnEnable()
@@ -34,15 +30,23 @@ public class Timer : MonoBehaviour
     {
         if (_isWork)
         {
-            _elapsedTime = DateTime.Now - _startTime;
+            _elapsedTime = DateTime.Now - _startTime + _pausedTime;
             
-            _text.text = $"{_elapsedTime.ToString(@"hh\:mm\:ss")}";
+            _text.text = $"{_elapsedTime.ToString(@"hh\:mm\:ss\.ff")}";
         }
     }
 
     private void OnButtonClick()
     {
         _isWork = !_isWork;
-        _startTime = DateTime.Now + _elapsedTime;
+
+        if (!_isWork)
+        {            
+            _pausedTime = _elapsedTime;
+        }
+        else
+        {
+            _startTime = DateTime.Now;
+        }
     }
 }
