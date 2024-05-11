@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +29,7 @@ public class Timer : MonoBehaviour
         {
             _elapsedTime = DateTime.Now - _startTime + _pausedTime;
             
-            _text.text = $"{_elapsedTime.ToString(@"hh\:mm\:ss\.ff")}";
+            _text.text = $"{_elapsedTime.ToString(@"hh\:mm\:ss")}";
         }
     }
 
