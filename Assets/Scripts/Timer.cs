@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,6 +11,8 @@ public class Timer : MonoBehaviour
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Button _startButton;
 
+    private DateTime _startTime;
+    private TimeSpan _elapsedTime;
     private float _totalSeconds;
     private int _seconds;
     private int _minutes;
@@ -22,18 +25,24 @@ public class Timer : MonoBehaviour
         _startButton.onClick.AddListener(OnButtonClick);
     }
 
-    void Update()
+    private void OnDisable()
+    {
+        _startButton.onClick.RemoveAllListeners();
+    }
+
+    private void Update()
     {
         if (_isWork)
         {
-            _totalSeconds += Time.deltaTime;
-
-            _text.text = $"{_totalSeconds.ToString()}";
-        }        
+            _elapsedTime = DateTime.Now - _startTime;
+            
+            _text.text = $"{_elapsedTime.ToString(@"hh\:mm\:ss")}";
+        }
     }
 
     private void OnButtonClick()
     {
         _isWork = !_isWork;
+        _startTime = DateTime.Now + _elapsedTime;
     }
 }
