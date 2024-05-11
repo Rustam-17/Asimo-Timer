@@ -1,27 +1,28 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ControlButton : MonoBehaviour
 {
-    [SerializeField] private Button _button;
-    [SerializeField] private Image _image;
+    //[SerializeField] private Timer _timer;
     [SerializeField] private Sprite _playSprite;
     [SerializeField] private Sprite _pauseSprite;
 
+    private Button _button;
+    private Image _image;
     private bool _isPlayed;
 
-    private void OnEnable()
+    private void OnDisable()
     {
-        _button.onClick.AddListener(OnButtonClick);
+        _button.onClick.RemoveAllListeners();
     }
 
-    private void Update()
+    private void Start()
     {
-        
+        _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
+        _isPlayed = false;
+
+        _button.onClick.AddListener(OnButtonClick);
     }
 
     private void OnButtonClick()
