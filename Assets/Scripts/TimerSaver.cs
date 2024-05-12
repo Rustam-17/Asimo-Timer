@@ -3,30 +3,52 @@ using UnityEngine;
 
 public class TimerSaver : MonoBehaviour
 {
-    TimeSpan _savedTime;
-    private long _savedTicks;
+    private TimeSpan _savedTime;
+    private long _savedTimeTicks;
 
-    public void Save(TimeSpan elapsedTime)
+    public void Save(TimeSpan elapsedTime, bool isPlay)
     {
-        _savedTicks = elapsedTime.Ticks;
+        if (isPlay)
+        {
+            _savedTimeTicks = DateTime.Now.Ticks - elapsedTime.Ticks;
+        }
+        else
+        {
+            _savedTimeTicks = elapsedTime.Ticks;
+        }
 
-        PlayerPrefs.SetString("ElapsedTime", _savedTicks.ToString());
+        PlayerPrefs.SetString("ElapsedTime", _savedTimeTicks.ToString());
+        PlayerPrefs.SetString("IsPlay", isPlay.ToString());
 
         Debug.Log($"Saved: {elapsedTime:hh\\:mm\\:ss}");
     }
 
-    public TimeSpan Load()
+    public TimeSpan Load(out bool isPlay)
     {
         if (PlayerPrefs.HasKey("ElapsedTime"))
         {
-            _savedTicks = long.Parse(PlayerPrefs.GetString("ElapsedTime"));
-            _savedTime = new TimeSpan(_savedTicks);
+            bool.TryParse(PlayerPrefs.GetString("IsPlay"), out isPlay);
+
+            if (isPlay)
+            {
+                _savedTimeTicks = DateTime.Now.Ticks - long.Parse(PlayerPrefs.GetString("ElapsedTime"));
+
+            }
+            else
+            {
+                _savedTimeTicks = long.Parse(PlayerPrefs.GetString("ElapsedTime"));
+            }
+
+            _savedTime = new TimeSpan(_savedTimeTicks);
 
             Debug.Log($"Load: {_savedTime:hh\\:mm\\:ss}");
 
             return _savedTime;
         }
 
+        Debug.Log($"There is no SaveFile to load");
+
+        isPlay = false;
         return TimeSpan.MinValue;
     }
 }

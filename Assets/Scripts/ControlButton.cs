@@ -1,15 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ControlButton : MonoBehaviour
 {
-    //[SerializeField] private Timer _timer;
     [SerializeField] private Sprite _playSprite;
     [SerializeField] private Sprite _pauseSprite;
+    [SerializeField] private Button _button;
 
-    private Button _button;
+    public UnityEvent OnControlButtonClick;
+
     private Image _image;
-    private bool _isPlayed;
+
+    private void OnEnable()
+    {
+        _button.onClick.AddListener(OnClick);
+    }
 
     private void OnDisable()
     {
@@ -18,24 +24,21 @@ public class ControlButton : MonoBehaviour
 
     private void Start()
     {
-        _button = GetComponent<Button>();
         _image = GetComponent<Image>();
-        _isPlayed = false;
-
-        _button.onClick.AddListener(OnButtonClick);
     }
 
-    private void OnButtonClick()
+    public void OnPlay()
     {
-        _isPlayed = !_isPlayed;
+        _image.sprite = _pauseSprite;
+    }
 
-        if (_isPlayed)
-        {
-            _image.sprite = _pauseSprite;
-        }
-        else
-        {
-            _image.sprite = _playSprite;
-        }
+    public void OnPause()
+    {
+        _image.sprite = _playSprite;
+    }
+
+    private void OnClick()
+    {
+        OnControlButtonClick?.Invoke();
     }
 }

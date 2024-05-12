@@ -7,89 +7,105 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
-    [SerializeField] private Button _controlButton;
-    [SerializeField] private Button _stopButton;
     [SerializeField] private TimerSaver _timerSaver;
 
-    public UnityEvent OnStart;
+    public UnityEvent OnPlay;
     public UnityEvent OnPause;
     public UnityEvent OnStop;
 
-    private DateTime _startTime;
+    private DateTime _playTime;
     private TimeSpan _elapsedTime;
     private TimeSpan _displayedTime;
-    private bool _isWork;
 
-    private void OnEnable()
-    {
-        _controlButton.onClick.AddListener(OnControlButtonClick);
-        _stopButton.onClick.AddListener(OnStopButtonClick);
-    }
-
-    private void OnDisable()
-    {
-        _controlButton.onClick.RemoveListener(OnControlButtonClick);
-        _stopButton.onClick.RemoveListener(OnStopButtonClick);
-    }
+    public bool IsPlay { get; private set; }
 
     private void Start()
     {
-        _elapsedTime = _timerSaver.Load();
-    }
+        _elapsedTime = _timerSaver.Load(out bool isPlay);
 
-    private void Update()
-    {
-        if (_isWork)
+        IsPlay = isPlay;
+
+        if (IsPlay)
         {
-            _displayedTime = DateTime.Now - _startTime + _elapsedTime;
-
-            _text.text = $"{_displayedTime:hh\\:mm\\:ss}";
-        }
-    }
-
-    private void OnApplicationQuit()
-    {
-        _timerSaver.Save(_displayedTime);
-    }
-
-    private void OnControlButtonClick()
-    {
-        _isWork = !_isWork;
-
-        if (_isWork)
-        {
-            OnStart?.Invoke();
-
-            _startTime = DateTime.Now;
+            Play();
         }
         else
         {
             OnPause?.Invoke();
 
-            _elapsedTime = _displayedTime;
+            _displayedTime = _elapsedTime;
+
+            DisplayTime();
         }
     }
 
-    private void OnStopButtonClick()
+    private void Update()
     {
-        _isWork = false;
+        if (IsPlay)
+        {
+            _displayedTime = DateTime.Now - _playTime + _elapsedTime;
+
+            DisplayTime();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        _timerSaver.Save(_displayedTime, IsPlay);
+    }
+
+    public void OnControlButtonClick()
+    {
+        IsPlay = !IsPlay;
+
+        if (IsPlay)
+        {
+            Play();
+        }
+        else
+        {
+            Pause();
+        }
+    }
+
+    public void OnStopButtonClick()
+    {
+        IsPlay = false;
 
         OnStop?.Invoke();
 
         _displayedTime = TimeSpan.Zero;
         _elapsedTime = TimeSpan.Zero;
+
+        DisplayTime();
     }
 
-    //private void OnApplicationFocus(bool isPaused)
-    //{
-    //    if (isPaused)
-    //    {
-    //        Save();
-    //        PlayerPrefs.Save();
-    //    }
-    //    else
-    //    {
-    //        Load();
-    //    }
-    //}
+    private void Play()
+    {
+        OnPlay?.Invoke();
+
+        _playTime = DateTime.Now;
+    }
+
+    private void Pause()
+    {
+        OnPause?.Invoke();
+
+        _elapsedTime = _displayedTime;
+
+        DisplayTime();
+    }
+
+    private void CalculateTime()
+    {
+        if (IsPlay)
+        {
+            _displayedTime = DateTime.Now - _playTime + _elapsedTime;
+        }
+    }
+
+    private void DisplayTime()
+    {
+        _text.text = $"{_displayedTime:hh\\:mm\\:ss}";
+    }
 }
