@@ -20,6 +20,8 @@ public class Timer : MonoBehaviour
 
     private void Start()
     {
+        QualitySettings.vSyncCount = 0;
+
         _elapsedTime = _timerSaver.Load(out bool isPlay);
 
         IsPlay = isPlay;
@@ -48,10 +50,20 @@ public class Timer : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
+    private void OnApplicationFocus(bool isFocused)
     {
-        _timerSaver.Save(_displayedTime, IsPlay);
-        //_timerSaver.RemoveAllSaves();
+        if (isFocused == false)
+        {
+            _timerSaver.Save(_displayedTime, IsPlay);
+        }
+    }
+
+    private void OnApplicationPause(bool isPaused)
+    {
+        if (isPaused)
+        {
+            _timerSaver.Save(_displayedTime, IsPlay);
+        }
     }
 
     public void OnControlButtonClick()
@@ -94,14 +106,6 @@ public class Timer : MonoBehaviour
         _elapsedTime = _displayedTime;
 
         DisplayTime();
-    }
-
-    private void CalculateTime()
-    {
-        if (IsPlay)
-        {
-            _displayedTime = DateTime.Now - _playTime + _elapsedTime;
-        }
     }
 
     private void DisplayTime()

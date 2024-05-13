@@ -965,7 +965,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2329708392657923891, guid: 622966a7257eb3e4d89f66e4dec73562, type: 3}
       propertyPath: m_text
-      value: Timer Title
+      value: Timer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588558369544240587, guid: 622966a7257eb3e4d89f66e4dec73562, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588558369544240587, guid: 622966a7257eb3e4d89f66e4dec73562, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5994416376109961643, guid: 622966a7257eb3e4d89f66e4dec73562, type: 3}
       propertyPath: _timerSaver
