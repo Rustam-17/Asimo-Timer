@@ -49,6 +49,13 @@ public class TimerSaver : MonoBehaviour
         Debug.Log($"There is no SaveFile to load");
 
         isPlay = false;
-        return TimeSpan.MinValue;
+        return TimeSpan.Zero;
+    }
+
+    public void RemoveAllSaves()
+    {
+        PlayerPrefs.DeleteAll();
+
+        Debug.LogWarning("All SaveFiles have been deleted!");
     }
 }

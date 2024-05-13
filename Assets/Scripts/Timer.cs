@@ -2,7 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
@@ -52,6 +51,7 @@ public class Timer : MonoBehaviour
     private void OnApplicationQuit()
     {
         _timerSaver.Save(_displayedTime, IsPlay);
+        //_timerSaver.RemoveAllSaves();
     }
 
     public void OnControlButtonClick()
