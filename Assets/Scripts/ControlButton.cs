@@ -22,7 +22,7 @@ public class ControlButton : MonoBehaviour
         _button.onClick.RemoveAllListeners();
     }
 
-    private void Start()
+    private void Awake()
     {
         _image = GetComponent<Image>();
     }
