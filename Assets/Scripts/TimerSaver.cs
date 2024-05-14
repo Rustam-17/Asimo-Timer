@@ -1,27 +1,35 @@
 using System;
 using UnityEngine;
-using Newtonsoft.Json;
 
 public class TimerSaver : MonoBehaviour
 {
     private TimeSpan _savedTime;
     private long _savedTimeTicks;
+    private string _titleFileName;
+    private string _timeFileName;
+    private string _workStateFileName;
 
-    public void Save(TimeSpan elapsedTime, bool isPlay)
+    private string TimeFileName => _timeFileName + _titleFileName;
+    private string WorkStateFileName => _workStateFileName + _titleFileName;
+
+    public void Save(TimerParameters parameters)
     {
-        if (isPlay)
+        if (parameters.IsPlay)
         {
-            _savedTimeTicks = DateTime.Now.Ticks - elapsedTime.Ticks;
+            _savedTimeTicks = DateTime.Now.Ticks - parameters.ElapsedTime.Ticks;
         }
         else
         {
-            _savedTimeTicks = elapsedTime.Ticks;
+            _savedTimeTicks = parameters.ElapsedTime.Ticks;
         }
 
-        PlayerPrefs.SetString("ElapsedTime", _savedTimeTicks.ToString());
-        PlayerPrefs.SetString("IsPlay", isPlay.ToString());
+        _titleFileName = parameters.Title;
 
-        Debug.Log($"Saved: {elapsedTime:hh\\:mm\\:ss}");
+        PlayerPrefs.SetString(_titleFileName, parameters.Title.ToString());
+        PlayerPrefs.SetString(TimeFileName, _savedTimeTicks.ToString());
+        PlayerPrefs.SetString(WorkStateFileName, parameters.IsPlay.ToString());
+
+        Debug.Log($"Timer {_titleFileName} saved <<{parameters.ElapsedTime:hh\\:mm\\:ss}>> in state: work_{parameters.IsPlay}");
     }
 
     public TimeSpan Load(out bool isPlay)

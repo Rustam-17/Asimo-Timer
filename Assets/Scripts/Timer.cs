@@ -16,6 +16,8 @@ public class Timer : MonoBehaviour
     private TimeSpan _elapsedTime;
     private TimeSpan _displayedTime;
 
+    private TimerParameters _parameters;
+
     public bool IsPlay { get; private set; }
 
     private void Start()
@@ -54,7 +56,7 @@ public class Timer : MonoBehaviour
     {
         if (isFocused == false)
         {
-            _timerSaver.Save(_displayedTime, IsPlay);
+            _timerSaver.Save(_parameters);
         }
     }
 
@@ -62,8 +64,13 @@ public class Timer : MonoBehaviour
     {
         if (isPaused)
         {
-            _timerSaver.Save(_displayedTime, IsPlay);
+            _timerSaver.Save(_parameters);
         }
+    }
+
+    public void SetParameters(TimerParameters parameters)
+    {
+        _parameters = parameters;
     }
 
     public void OnControlButtonClick()
@@ -82,30 +89,35 @@ public class Timer : MonoBehaviour
 
     public void OnStopButtonClick()
     {
-        IsPlay = false;
+        Stop();
+    }
 
-        OnStop?.Invoke();
+    private void Stop()
+    {
+        IsPlay = false;
 
         _displayedTime = TimeSpan.Zero;
         _elapsedTime = TimeSpan.Zero;
 
         DisplayTime();
+
+        OnStop?.Invoke();
     }
 
     private void Play()
     {
-        OnPlay?.Invoke();
-
         _playTime = DateTime.Now;
+
+        OnPlay?.Invoke();
     }
 
     private void Pause()
     {
-        OnPause?.Invoke();
-
         _elapsedTime = _displayedTime;
 
         DisplayTime();
+
+        OnPause?.Invoke();
     }
 
     private void DisplayTime()

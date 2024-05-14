@@ -29,5 +29,7 @@ public class TimerCreator : MonoBehaviour
     private void Create()
     {
         _timer = Instantiate(_prefab, _container);
+
+        //_timer.SetParameters();
     }
 }
