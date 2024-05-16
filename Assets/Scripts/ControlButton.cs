@@ -14,17 +14,14 @@ public class ControlButton : MonoBehaviour
 
     private void OnEnable()
     {
+        _image = GetComponent<Image>();
+
         _button.onClick.AddListener(OnClick);
     }
 
     private void OnDisable()
     {
         _button.onClick.RemoveAllListeners();
-    }
-
-    private void Awake()
-    {
-        _image = GetComponent<Image>();
     }
 
     public void OnPlay()

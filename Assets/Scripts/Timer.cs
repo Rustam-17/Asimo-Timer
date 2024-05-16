@@ -13,34 +13,13 @@ public class Timer : MonoBehaviour
     public UnityEvent OnStop;
 
     private DateTime _playTime;
-    private TimeSpan _elapsedTime;
     private TimeSpan _displayedTime;
+    private TimeSpan _elapsedTime;
 
+    private int _id;
     private TimerParameters _parameters;
 
-    public bool IsPlay { get; private set; }
-
-    private void Start()
-    {
-        QualitySettings.vSyncCount = 0;
-
-        _elapsedTime = _timerSaver.Load(out bool isPlay);
-
-        IsPlay = isPlay;
-
-        if (IsPlay)
-        {
-            Play();
-        }
-        else
-        {
-            OnPause?.Invoke();
-
-            _displayedTime = _elapsedTime;
-
-            DisplayTime();
-        }
-    }
+    public bool IsPlay => _parameters.IsPlay;
 
     private void Update()
     {
@@ -56,26 +35,34 @@ public class Timer : MonoBehaviour
     {
         if (isFocused == false)
         {
-            _timerSaver.Save(_parameters);
+            Save();
         }
-    }
-
-    private void OnApplicationPause(bool isPaused)
-    {
-        if (isPaused)
+        else
         {
-            _timerSaver.Save(_parameters);
+            Load();
         }
     }
 
-    public void SetParameters(TimerParameters parameters)
+    //private void OnApplicationPause(bool isPaused)
+    //{
+    //    if (isPaused)
+    //    {
+    //        Save();
+    //    }
+    //    else
+    //    {
+    //        Load();
+    //    }
+    //}
+
+    public void SetId(int id)
     {
-        _parameters = parameters;
+        _id = id;
     }
 
     public void OnControlButtonClick()
     {
-        IsPlay = !IsPlay;
+        _parameters.IsPlay = !_parameters.IsPlay;
 
         if (IsPlay)
         {
@@ -94,7 +81,7 @@ public class Timer : MonoBehaviour
 
     private void Stop()
     {
-        IsPlay = false;
+        _parameters.IsPlay = false;
 
         _displayedTime = TimeSpan.Zero;
         _elapsedTime = TimeSpan.Zero;
@@ -106,22 +93,46 @@ public class Timer : MonoBehaviour
 
     private void Play()
     {
-        _playTime = DateTime.Now;
-
         OnPlay?.Invoke();
+
+        _playTime = DateTime.Now;
     }
 
     private void Pause()
     {
+        OnPause?.Invoke();
+
         _elapsedTime = _displayedTime;
 
         DisplayTime();
-
-        OnPause?.Invoke();
     }
 
     private void DisplayTime()
     {
         _text.text = $"{_displayedTime:hh\\:mm\\:ss}";
+    }
+
+    private void Save()
+    {
+        _parameters.ElapsedTime = _displayedTime;
+
+        _timerSaver.Save(_id, _parameters);
+    }
+
+    private void Load()
+    {
+        _parameters = _timerSaver.Load(_id);
+        _elapsedTime = _parameters.ElapsedTime;
+
+        if (IsPlay)
+        {
+            Play();
+        }
+        else
+        {
+            _displayedTime = _elapsedTime;
+
+            Pause();
+        }
     }
 }
