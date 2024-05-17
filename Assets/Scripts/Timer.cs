@@ -43,6 +43,11 @@ public class Timer : MonoBehaviour
         }
     }
 
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+
     //private void OnApplicationPause(bool isPaused)
     //{
     //    if (isPaused)
