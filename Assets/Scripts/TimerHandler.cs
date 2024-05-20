@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class TimerHandler : MonoBehaviour
 {
     [SerializeField] private Timer _timer;
-    [SerializeField] private TimerSaver _saver;
     [SerializeField] private ControlButton _controlButton;
     [SerializeField] private Button _stopButton;
 
