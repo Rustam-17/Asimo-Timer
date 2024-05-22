@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TimerCreator : MonoBehaviour
@@ -7,10 +8,14 @@ public class TimerCreator : MonoBehaviour
     [SerializeField] private Transform _container;
     [SerializeField] private Button _createButton;
 
+    public UnityEvent TimerCreated;
+
     private GameObject _timerObject;
     private Timer _timer;
     private int _timerId;
     private int _timersCount;
+
+    public Timer Timer => _timer.GetCopy();
 
     private void OnEnable()
     {
@@ -46,7 +51,7 @@ public class TimerCreator : MonoBehaviour
 
     private void SaveTimersCount()
     {
-        PlayerPrefs.SetInt("TimersCount", _timerId);
+        PlayerPrefs.SetInt("TimersCount", _timerId);        
     }
 
     private void LoadTimersCount()
