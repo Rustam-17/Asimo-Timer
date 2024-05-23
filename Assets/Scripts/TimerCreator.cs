@@ -15,7 +15,7 @@ public class TimerCreator : MonoBehaviour
     private int _timerId;
     private int _timersCount;
 
-    public Timer Timer => _timer.GetCopy();
+    public Timer Timer => _timer;
 
     private void OnEnable()
     {

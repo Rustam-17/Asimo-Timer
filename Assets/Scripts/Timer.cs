@@ -59,12 +59,7 @@ public class Timer : MonoBehaviour
     //        Load();
     //    }
     //}
-
-    public Timer GetCopy()
-    {
-        return (Timer)this.MemberwiseClone();
-    }
-
+        
     public void SetId(int id)
     {
         _id = id;
