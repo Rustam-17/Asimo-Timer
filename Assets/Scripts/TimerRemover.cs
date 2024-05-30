@@ -9,7 +9,7 @@ public class TimerRemover : MonoBehaviour
 
     private Timer _timer;
 
-    public Timer Timer => _timer.GetCopy();
+    public Timer Timer => _timer;
 
     private void OnEnable()
     {

@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1000
+  m_ScrollSensitivity: 500
   m_Viewport: {fileID: 106447955}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -757,6 +757,9 @@ MonoBehaviour:
   _prefab: {fileID: 1292114403934999637, guid: 622966a7257eb3e4d89f66e4dec73562, type: 3}
   _container: {fileID: 853619917}
   _createButton: {fileID: 564921024}
+  TimerCreated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
