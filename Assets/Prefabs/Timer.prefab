@@ -455,7 +455,6 @@ GameObject:
   - component: {fileID: 5172569697983076524}
   - component: {fileID: 5232926126492609165}
   - component: {fileID: 5994416376109961643}
-  - component: {fileID: 1597584589015002817}
   - component: {fileID: 8329597451235433168}
   m_Layer: 5
   m_Name: Timer
@@ -536,7 +535,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 8885474334408682061}
-  _timerSaver: {fileID: 1597584589015002817}
+  _saver: {fileID: 0}
+  _remover: {fileID: 0}
   OnPlay:
     m_PersistentCalls:
       m_Calls: []
@@ -546,18 +546,6 @@ MonoBehaviour:
   OnStop:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1597584589015002817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1292114403934999637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf5d63b3073d6b340be195ee6227680a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8329597451235433168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,9 +559,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timer: {fileID: 5994416376109961643}
-  _saver: {fileID: 1597584589015002817}
   _controlButton: {fileID: 2868258798617527471}
   _stopButton: {fileID: 3172294764728638964}
+  _removeButton: {fileID: 4400094233152033616}
 --- !u!1 &1694683574813509770
 GameObject:
   m_ObjectHideFlags: 0

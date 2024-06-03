@@ -38,6 +38,17 @@ public class TimerSaver : MonoBehaviour
         Debug.Log($"Timer_{_timerId} {_timerTitle} saved Time: <<{_timerElapsedTime:dd} days {_timerElapsedTime:hh\\:mm\\:ss}>> in workState_{_timerIsPlay}");
     }
 
+    public void RemoveSaveFile(int id)
+    {
+        _timerId = id;
+
+        RemoveTitleFile();
+        RemoveWorkStateFile();
+        RemoveElapsedTimeFile();
+
+        Debug.LogWarning($"Timer_{_timerId} {_timerTitle} has been removed");
+    }
+
     public TimerParameters Load(int id)
     {
         _timerId = id;
@@ -87,6 +98,21 @@ public class TimerSaver : MonoBehaviour
         }
 
         PlayerPrefs.SetString(ElapsedTimeFileName, _timerElapsedTimeTicks.ToString());
+    }
+
+    private void RemoveTitleFile()
+    {
+        PlayerPrefs.DeleteKey(TitleFileName);
+    }
+
+    private void RemoveWorkStateFile()
+    {
+        PlayerPrefs.DeleteKey(WorkStateFileName);
+    }
+
+    private void RemoveElapsedTimeFile()
+    {
+        PlayerPrefs.DeleteKey(ElapsedTimeFileName);
     }
 
     private void LoadTitle()

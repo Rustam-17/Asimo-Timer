@@ -6,6 +6,7 @@ public class TimerHandler : MonoBehaviour
     [SerializeField] private Timer _timer;
     [SerializeField] private ControlButton _controlButton;
     [SerializeField] private Button _stopButton;
+    [SerializeField] private Button _removeButton;
 
     private void OnEnable()
     {
@@ -14,6 +15,7 @@ public class TimerHandler : MonoBehaviour
         _timer.OnStop.AddListener(OnTimerStop);
         _controlButton.OnControlButtonClick.AddListener(OnControlButtonClick);
         _stopButton.onClick.AddListener(OnStopButtonClick);
+        _removeButton.onClick.AddListener(OnRemoveButtonClick);
     }
 
     private void OnDisable()
@@ -23,6 +25,7 @@ public class TimerHandler : MonoBehaviour
         _timer.OnStop.RemoveListener(OnTimerPlay);
         _controlButton.OnControlButtonClick.RemoveListener(OnControlButtonClick);
         _stopButton.onClick.RemoveListener(OnStopButtonClick);
+        _removeButton.onClick.RemoveListener(OnRemoveButtonClick);
     }
 
     private void OnTimerPlay()
@@ -50,5 +53,10 @@ public class TimerHandler : MonoBehaviour
     private void OnStopButtonClick()
     {
         _timer.OnStopButtonClick();
+    }
+
+    private void OnRemoveButtonClick()
+    {
+        _timer.OnRemoveButtonClick();
     }
 }

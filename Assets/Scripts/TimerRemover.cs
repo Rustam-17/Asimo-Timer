@@ -20,4 +20,11 @@ public class TimerRemover : MonoBehaviour
     {
         
     }
+
+    public void Remove(Timer timer)
+    {
+        _timer = timer;
+
+        TimerRemoved?.Invoke();
+    }
 }

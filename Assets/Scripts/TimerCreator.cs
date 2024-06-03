@@ -7,12 +7,14 @@ public class TimerCreator : MonoBehaviour
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _container;
     [SerializeField] private Button _createButton;
+    [SerializeField] private TimerSaver _timerSaver;
+    [SerializeField] private TimerRemover _timerRemover;
 
     public UnityEvent TimerCreated;
 
     private GameObject _timerObject;
     private Timer _timer;
-    private int _timerId;
+    //private int _timerId;
     private int _timersCount;
 
     public Timer Timer => _timer;
@@ -20,6 +22,7 @@ public class TimerCreator : MonoBehaviour
     private void OnEnable()
     {
         _createButton.onClick.AddListener(CreateTimer);
+        _timerRemover.TimerRemoved.AddListener(OnTimerRemoved);
         CreateTimers();
     }
 
@@ -34,7 +37,8 @@ public class TimerCreator : MonoBehaviour
         _timerObject.transform.SetSiblingIndex(0);
 
         _timer = _timerObject.GetComponent<Timer>();
-        _timer.SetId(_timerId++);
+        _timer.SetId(_timersCount++);
+        _timer.SetComponents(_timerSaver, _timerRemover);
 
         SaveTimersCount();
     }
@@ -51,11 +55,17 @@ public class TimerCreator : MonoBehaviour
 
     private void SaveTimersCount()
     {
-        PlayerPrefs.SetInt("TimersCount", _timerId);        
+        PlayerPrefs.SetInt("TimersCount", _timersCount);        
     }
 
     private void LoadTimersCount()
     {
         _timersCount = PlayerPrefs.GetInt("TimersCount");
+    }
+
+    private void OnTimerRemoved()
+    {
+        _timersCount--;
+        SaveTimersCount();
     }
 }

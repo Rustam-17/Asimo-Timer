@@ -6,12 +6,13 @@ using UnityEngine.Events;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
-    [SerializeField] private TimerSaver _timerSaver;
 
     public UnityEvent OnPlay;
     public UnityEvent OnPause;
     public UnityEvent OnStop;
 
+    private TimerSaver _saver;
+    private TimerRemover _remover;
     private DateTime _playTime;
     private TimeSpan _displayedTime;
     private TimeSpan _elapsedTime;
@@ -59,13 +60,34 @@ public class Timer : MonoBehaviour
     //        Load();
     //    }
     //}
-        
+
     public void SetId(int id)
     {
         _id = id;
     }
 
+    public void SetComponents(TimerSaver saver, TimerRemover remover)
+    {
+        _saver = saver;
+        _remover = remover;
+    }
+
     public void OnControlButtonClick()
+    {
+        ChangeWorkStatus();
+    }
+
+    public void OnStopButtonClick()
+    {
+        Stop();
+    }
+
+    public void OnRemoveButtonClick()
+    {
+        Remove();
+    }
+
+    private void ChangeWorkStatus()
     {
         _parameters.IsPlay = !_parameters.IsPlay;
 
@@ -77,11 +99,6 @@ public class Timer : MonoBehaviour
         {
             Pause();
         }
-    }
-
-    public void OnStopButtonClick()
-    {
-        Stop();
     }
 
     private void Stop()
@@ -121,12 +138,12 @@ public class Timer : MonoBehaviour
     {
         _parameters.ElapsedTime = _displayedTime;
 
-        _timerSaver.Save(_id, _parameters);
+        _saver.Save(_id, _parameters);
     }
 
     private void Load()
     {
-        _parameters = _timerSaver.Load(_id);
+        _parameters = _saver.Load(_id);
         _elapsedTime = _parameters.ElapsedTime;
 
         if (IsPlay)
@@ -139,5 +156,13 @@ public class Timer : MonoBehaviour
 
             Pause();
         }
+    }
+
+    private void Remove()
+    {
+        _remover.Remove(this);
+        _saver.RemoveSaveFile(_id);
+
+        Destroy(gameObject);
     }
 }
